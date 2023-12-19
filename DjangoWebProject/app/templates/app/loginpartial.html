@@ -3,7 +3,7 @@
 <form id="logoutForm" action="/logout/" method="post" class="navbar-right">
     {% csrf_token %}
     <ul class="nav navbar-nav navbar-right">
-        <li><span class="navbar-brand" style="color: #ffffff;">{{ user.username }}</span></li>
+        <li><span class="navbar-brand" style="color: white;">{{ user.username }}</span></li>
         <li><a class="nav__item-link" href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
         <li class="nav__item">
             <a class="nav__item-link" href="{% url 'cart' %}" target="_blank">
