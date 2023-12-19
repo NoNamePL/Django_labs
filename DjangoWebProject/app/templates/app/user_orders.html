@@ -1,0 +1,75 @@
+{% extends "app/layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="orders-page">
+    <h1 class="orders-title">Мои заказы</h1>
+
+    {% if orders %}
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>Заказ</th>
+                <th>Дата заказа</th>
+                <th>Общая сумма</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td><a href="{% url 'order' order.id %}">Заказ #{{ order.id }}</a></td>
+                <td>{{ order.order_date|date:"d.m.Y H:i:s" }}</td>
+                <td>{{ order.total_amount }} ₽</td>
+                <td>{{ order.status.name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="no-orders">У вас нет заказов.</p>
+    {% endif %}
+</div>
+
+<style>
+    .orders-page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        overflow-x: auto;
+    }
+
+    .orders-title {
+        font-size: 24px;
+        color: #3148c7;
+        margin: 0;
+    }
+
+    .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+        .orders-table th,
+        .orders-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .orders-table th {
+            background-color: #3148c7;
+            color: #fff;
+            font-weight: bold;
+        }
+
+    .no-orders {
+        color: #777;
+    }
+</style>
+
+{% endblock %}

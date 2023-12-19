@@ -1,0 +1,172 @@
+{% extends "app/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="col-md-10">
+        <h1 class="title">{{ category.name }}</h1>
+        <div class="product-list">
+            {% for product in products %}
+            <div class="product-item">
+                <a class="product-link" href="{% url 'product' product.id %}">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                    <div class="product-content">
+                        <p class="product-name">{{ product.name }}</p>
+                        <p class="product-description">{{ product.description }}</p>
+                        <p class="product-price">{{ product.price }} ₽</p>
+                    </div>
+                </a>
+                {% if user.is_authenticated %}
+                <button class="add-to-cart-button" data-product-id="{{ product.id }}">Добавить в корзину</button>
+                {% else %}
+                <a class="add-to-cart-disabled" href="#">Зарегистрируйтесь для добавления в корзину</a>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p class="no-products">Нет товаров.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $(".add-to-cart-button").click(function() {
+        var product_id = $(this).data("product-id");
+        $.ajax({
+            type: "POST",
+            url: "{% url 'add_to_cart' %}",
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                product_id: product_id,
+            },
+            success: function(data) {
+                alert(data.message);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                alert("Error: Продукт не может быть добавлен в коризну.");
+            }
+        });
+    });
+});
+</script>
+
+<style>
+    .product-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .product-link, .product-link:hover {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .product-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: calc(33.33% - 20px);
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+        .product-item:hover {
+            transform: scale(1.05);
+        }
+
+@media (max-width: 768px) {
+    .product-item {
+        width: 100%;
+    }
+}
+
+    .product-image {
+        border-radius: 8px;
+        max-width: 100%;
+        height: auto;
+    }
+
+@media (max-width: 768px) {
+    .product-link {
+        display: flex;
+    }
+
+    .product-image {
+        max-height: 120px;
+        float: left;
+    }
+
+    .product-content {
+        padding-left: 8px;
+    }
+
+    p {
+        font-size: 12px;
+    }
+}
+
+    .product-name {
+        color: #333;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .product-description {
+        color: #555;
+        margin-top: 5px;
+    }
+
+    .product-price {
+        color: #333;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    .add-to-cart-disabled {
+        background-color: #777;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: not-allowed;
+        margin-top: 10px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+        .add-to-cart-disabled:hover {
+            background-color: #777;
+            color: #fff;
+            text-decoration: none;
+        }
+
+    .add-to-cart-button {
+        background-color: #3148c7;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+        .add-to-cart-button:hover {
+            background-color: #0a086d;
+            color: #fff;
+            text-decoration: none;
+        }
+
+    .no-products {
+        color: #777;
+    }
+</style>
+{% endblock %}

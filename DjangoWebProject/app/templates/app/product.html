@@ -1,0 +1,103 @@
+{% extends "app/layout.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h1 class="title">{{ title }}</h1>
+        <div class="product-page">
+            <h1 class="product-title">{{ product.name }}</h1>
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+            <p class="product-content">Описание: {{ product.content|linebreaksbr }}</p>
+            <p class="product-price">Цена: {{ product.price }} ₽</p>
+            {% if user.is_authenticated %}
+            <button class="add-to-cart-button" data-product-id="{{ product.id }}">Добавить в корзину</button>
+            {% else %}
+            <p class="add-to-cart-disabled">Зарегистрируйтесь для добавления в корзину</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $(".add-to-cart-button").click(function() {
+        var product_id = $(this).data("product-id");
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'add_to_cart' %}",
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                product_id: product_id,
+            },
+            success: function(data) {
+                alert(data.message);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                alert("Error: Продукт не может быть добавлен в коризну.");
+            }
+        });
+    });
+});
+</script>
+
+<style>
+    .product-page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+    }
+
+    .product-title {
+        font-size: 24px;
+        margin: 0;
+    }
+
+    .product-image {
+        float: right;
+        max-width: 400px; 
+        max-height: 400px;        
+    }
+
+        
+
+    .product-content {
+        font-size: 16px;
+        color: #333;
+        margin-top: 10px;
+    }
+
+    .product-price {
+        font-size: 18px;
+        color: #333;
+        margin-top: 10px;
+    }
+
+    .add-to-cart-button {
+        background-color: #3148c7;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+        .add-to-cart-button:hover {
+            background-color: #0a086d;
+            color: #fff;
+            text-decoration: none;
+        }
+
+    .add-to-cart-disabled {
+        color: #777;
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}

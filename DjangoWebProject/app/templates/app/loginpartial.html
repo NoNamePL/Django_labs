@@ -1,0 +1,25 @@
+﻿{% load static %}
+{% if user.is_authenticated %}
+<form id="logoutForm" action="/logout/" method="post" class="navbar-right">
+    {% csrf_token %}
+    <ul class="nav navbar-nav navbar-right">
+        <li><span class="navbar-brand" style="color: #ffffff;">{{ user.username }}</span></li>
+        <li><a class="nav__item-link" href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
+        <li class="nav__item">
+            <a class="nav__item-link" href="{% url 'cart' %}" target="_blank">
+                <img style="width: 25px;" src="{% static 'app/content/backet.png' %}" alt="Корзина">
+            </a>
+        </li>
+    </ul>
+</form>
+
+{% else %}
+
+<ul class="nav navbar-nav navbar-right">
+    <li class="nav__item"><a class="nav__item-link" href="{% url 'login' %}">Войти</a></li>
+    {% if not user.is_authenticated %}
+    <li class="nav__item"><a class="nav__item-link" href="{% url 'registration' %}">Регистрация</a></li>
+    {% endif %}
+</ul>
+
+{% endif %}

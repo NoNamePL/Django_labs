@@ -1,0 +1,154 @@
+﻿{% extends "app/layout.html" %}
+{% load static %}
+{% block content %}
+
+<h1 class="title">{{ title }}</h1>
+<h3 class="message">{{ message }}</h3>
+
+<section class="address-section">
+    <h2 class="address-heading">Адрес</h2>
+    <p>Наш офис находиться по адресу:</p>
+    <address class="address-details">
+        <strong>FluidFD</strong><br>
+        город Псков<br>
+        ул. Инженерная, 8<br>
+        Псков, <br>
+        Россия
+    </address>
+</section>
+
+<section class="phone-section">
+    <h2 class="phone-heading">Телефон</h2>
+    <p>Вы можете связаться с нами по телефону:</p>
+    <a href="tel:+7923542354" class="phone-number">+7(923)543-23-54</a>
+</section>
+
+<section class="email-section">
+    <h2 class="email-heading">Email</h2>
+    <p>Напишите нам на почту:</p>
+    <a href="FluinFD@FluinFD.com" class="email-address">FluinFD@FluinFD.com</a>
+</section>
+
+<section>
+    <h1 class="title">Полезные ссылки</h1>
+
+<ul class="links-list">
+    <li class="links-list__item">
+        <a class="links-list__item-url" href="https://www.facebook.com/FluentU" target="_blank">
+            <img class="links-list__item-url-logo" src="{% static 'app/content/Facebook_icon.svg.png' %}" alt="Facebook" />
+        </a>
+    </li>
+    <li class="links-list__item">
+        <a class="links-list__item-url" href="https://twitter.com/FluentU" target="_blank">
+            <img class="links-list__item-url-logo" src="{% static 'app/content/twitter-logo.png' %}" alt="Телеграмм" />
+        </a>
+    </li>
+</ul>
+
+</section>
+
+<style>
+    .address-section {
+        margin-bottom: 3rem;
+    }
+
+    .address-heading {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+
+    .address-details {
+        font-size: 1.5rem;
+        line-height: 1.5;
+    }
+
+    .phone-section {
+        margin-bottom: 3rem;
+    }
+
+    .phone-heading {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+
+    .phone-number {
+        font-size: 1.5rem;
+        line-height: 1.5;
+        text-decoration: none;
+        color: #000;
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        background-color: #f0f0f0;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .phone-number:hover {
+        background-color: #e0e0e0;
+    }
+
+    .email-section {
+        margin-bottom: 3rem;
+    }
+
+    .email-heading {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+
+    .email-address {
+        font-size: 1.5rem;
+        line-height: 1.5;
+        text-decoration: none;
+        color: #000;
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        background-color: #f0f0f0;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .email-address:hover {
+        background-color: #e0e0e0;
+    }
+
+    .links-list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .links-list__item {
+        margin: 0 1.5rem;
+    }
+
+    .links-list__item-url {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 4rem;
+        width: 4rem;
+        border-radius: 50%;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .links-list__item-url-logo {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .links-list__item-url:hover {
+        transform: scale(1.2);
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    }
+</style>
+
+{% endblock %}
